@@ -12,7 +12,9 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const WIDTH = canvas.width,
- HEIGHT = canvas.height;
+ HEIGHT = canvas.height,
+ startWidth = -10,
+ startHeight = -10;
 
 let land = "=", water = "~", map = [], chanceOfLand = 0.43, terrainSize = 10;
 let mouseX, mouseY;
@@ -25,10 +27,10 @@ function makeMap() {
 }
 
 function generateMap() {
-  for (let i = 0; i < canvas.width; i += terrainSize) {
+  for (let i = startWidth; i < canvas.width; i += terrainSize) {
     map[i] = [];
-    for (let j = 0; j < canvas.height; j += terrainSize) {
-      if (i === 0 || i === WIDTH - 1 || j === 0 || j === HEIGHT - 1)
+    for (let j = startHeight; j < canvas.height; j += terrainSize) {
+      if (i === startWidth || i === WIDTH - 1 || j === startHeight || j === HEIGHT - 1)
         map[i][j] = 1;
       if (Math.random() < chanceOfLand) map[i][j] = 1;
       else map[i][j] = 0;
@@ -37,8 +39,8 @@ function generateMap() {
 }
 
 function smoothMap() {
-  for (let i = 0; i < canvas.width; i += terrainSize) {
-    for (let j = 0; j < canvas.height; j += terrainSize) {
+  for (let i = startWidth; i < canvas.width; i += terrainSize) {
+    for (let j = startHeight; j < canvas.height; j += terrainSize) {
       let nextWallTiles = getSurroundingTile(i, j);
       if (nextWallTiles > 4) map[i][j] = 1;
       else if (nextWallTiles < 4) map[i][j] = 0;
@@ -58,7 +60,7 @@ function getSurroundingTile(gridX, gridY) {
       nextY <= gridY + terrainSize;
       nextY += terrainSize
     ) {
-      if (nextX >= 0 && nextX <= WIDTH && nextY >= 0 && nextX <= HEIGHT) {
+      if (nextX >= startWidth && nextX <= WIDTH && nextY >= startHeight && nextX <= HEIGHT) {
         if (nextX != gridX || nextY != gridY) wallCount += map[nextX][nextY];
       } else {
         wallCount++;
@@ -69,8 +71,8 @@ function getSurroundingTile(gridX, gridY) {
 }
 
 function draw() {
-  for (let i = terrainSize; i < canvas.width; i+=terrainSize) {
-    for (let j = terrainSize; j < canvas.height; j+=terrainSize) {
+  for (let i = 0; i < canvas.width; i+=terrainSize) {
+    for (let j = 0; j < canvas.height; j+=terrainSize) {
       if(map[i][j] === 1)
           c.fillStyle = "rgb(0, 18, 255)";
       else if(map[i+terrainSize][j] === 1 || map[i][j+terrainSize] === 1 || map[i-terrainSize][j] === 1 || map[i][j-terrainSize] === 1)
