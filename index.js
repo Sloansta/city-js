@@ -11,13 +11,13 @@ c = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const WIDTH = canvas.width,
- HEIGHT = canvas.height,
- startWidth = -10,
- startHeight = -10;
-
 let land = "=", water = "~", map = [], chanceOfLand = 0.43, terrainSize = 10;
 let mouseX, mouseY;
+
+const WIDTH = canvas.width * terrainSize-1,
+ HEIGHT = canvas.height * terrainSize-1,
+ startWidth = -10,
+ startHeight = -10;
 
 makeMap();
 function makeMap() {
@@ -27,9 +27,9 @@ function makeMap() {
 }
 
 function generateMap() {
-  for (let i = startWidth; i < canvas.width; i += terrainSize) {
+  for (let i = startWidth; i < WIDTH; i += terrainSize) {
     map[i] = [];
-    for (let j = startHeight; j < canvas.height; j += terrainSize) {
+    for (let j = startHeight; j < HEIGHT; j += terrainSize) {
       if (i === startWidth || i === WIDTH - 1 || j === startHeight || j === HEIGHT - 1)
         map[i][j] = 1;
       if (Math.random() < chanceOfLand) map[i][j] = 1;
@@ -39,8 +39,8 @@ function generateMap() {
 }
 
 function smoothMap() {
-  for (let i = startWidth; i < canvas.width; i += terrainSize) {
-    for (let j = startHeight; j < canvas.height; j += terrainSize) {
+  for (let i = startWidth; i < WIDTH; i += terrainSize) {
+    for (let j = startHeight; j < HEIGHT; j += terrainSize) {
       let nextWallTiles = getSurroundingTile(i, j);
       if (nextWallTiles > 4) map[i][j] = 1;
       else if (nextWallTiles < 4) map[i][j] = 0;
