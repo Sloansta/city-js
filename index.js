@@ -20,9 +20,15 @@ const WIDTH = canvas.width * terrainSize-1,
  startHeight = -10;
 
 makeMap();
+render();
 function makeMap() {
   generateMap();
   for (let i = 0; i < 10; i++) smoothMap();
+  //draw();
+}
+
+function render() {
+  requestAnimationFrame(render);
   draw();
 }
 
