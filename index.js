@@ -1,10 +1,4 @@
- /*
-  Created by Sloan (AKA Sloansta)
-  
-  Spot a bug? See if you can fix it!
-  
-  My code is free for use, just give credit!
-  */
+
 let canvas = document.getElementById('canvas'),
 c = canvas.getContext('2d');
 
@@ -14,25 +8,30 @@ canvas.height = window.innerHeight;
 let land = "=", water = "~", map = [], chanceOfLand = 0.43, terrainSize = 10;
 let mouseX, mouseY;
 
+const objectMap = [];
+
 const WIDTH = canvas.width * terrainSize-1,
  HEIGHT = canvas.height * terrainSize-1,
  startWidth = -10,
  startHeight = -10;
 
 makeMap();
+generateObjects();
 render();
 
 // generates a map, smooths it over 10 times. These variables can be tweaked for various different results.
 function makeMap() {
   generateMap();
   for (let i = 0; i < 10; i++) smoothMap();
-  //draw();
 }
 
 // render. Handles rending to the canvas
 function render() {
   requestAnimationFrame(render);
-  draw();
+  //draw();
+    for (let i = 0; i < objectMap.length; i++ ) {
+      objectMap[i].draw(c);
+    }
 }
 
 // generates random points on the map so that the smothing algorithm can pass through
@@ -83,16 +82,15 @@ function getSurroundingTile(gridX, gridY) {
 }
 
 // draw. This will likely be changed when we finally flesh out the block object.
-function draw() {
+function generateObjects() {
   for (let i = 0; i < canvas.width; i+=terrainSize) {
     for (let j = 0; j < canvas.height; j+=terrainSize) {
       if(map[i][j] === 1)
-          c.fillStyle = "rgb(0, 18, 255)";
+          objectMap.push(new Block(i, j, terrainSize, 'water'));
       else if(map[i+terrainSize][j] === 1 || map[i][j+terrainSize] === 1 || map[i-terrainSize][j] === 1 || map[i][j-terrainSize] === 1)
-        c.fillStyle = "rgb(255, 253, 91)";
+        objectMap.push(new Block(i, j, terrainSize, 'sand'));
       else if(map[i][j] === 0)
-          c.fillStyle = "rgb(43, 255, 0)";
-        c.fillRect(i, j, terrainSize, terrainSize);
+          objectMap.push(new Block(i, j, terrainSize, 'grass'));
     }
   }
 }
