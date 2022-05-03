@@ -7,6 +7,7 @@ canvas.height = 600;
 
 let land = "=", water = "~", map = [], chanceOfLand = 0.43, terrainSize = 10;
 let mouseX, mouseY;
+let zoneTypeSelected = false;
 
 const objectMap = [];
 
@@ -17,6 +18,7 @@ const WIDTH = canvas.width * terrainSize-2,
 
 makeMap();
 generateObjects();
+
 render();
 
 // generates a map, smooths it over 10 times. These variables can be tweaked for various different results.
@@ -32,6 +34,9 @@ function render() {
     for (let i = 0; i < objectMap.length; i++ ) {
       objectMap[i].draw(c);
     }
+
+    if(!zoneTypeSelected)
+      drawCursorPos(mouseX, mouseY, terrainSize);
 }
 
 // generates random points on the map so that the smothing algorithm can pass through
@@ -94,3 +99,16 @@ function generateObjects() {
     }
   }
 }
+
+function drawCursorPos(x, y, size) {
+  c.strokeStyle = "rgb(0, 0, 0)";
+  c.beginPath();
+  c.rect(x, y, size, size);
+  c.stroke();
+  c.closePath();
+}
+
+document.querySelector('canvas').addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
