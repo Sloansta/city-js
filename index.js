@@ -2,16 +2,16 @@
 let canvas = document.getElementById('canvas'),
 c = canvas.getContext('2d');
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = 800;
+canvas.height = 600;
 
 let land = "=", water = "~", map = [], chanceOfLand = 0.43, terrainSize = 10;
 let mouseX, mouseY;
 
 const objectMap = [];
 
-const WIDTH = canvas.width * terrainSize-1,
- HEIGHT = canvas.height * terrainSize-1,
+const WIDTH = canvas.width * terrainSize-2,
+ HEIGHT = canvas.height * terrainSize-2,
  startWidth = -10,
  startHeight = -10;
 

@@ -1,7 +1,16 @@
-html, body, canvas {
+html, body {
     top: 0;
     left: 0;
     margin: 0;
     padding: 0;
     overflow: hidden;
+    background-color: black;
+}
+
+canvas {
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    margin: 0 auto;
 }
