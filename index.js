@@ -21,17 +21,21 @@ const WIDTH = canvas.width * terrainSize-1,
 
 makeMap();
 render();
+
+// generates a map, smooths it over 10 times. These variables can be tweaked for various different results.
 function makeMap() {
   generateMap();
   for (let i = 0; i < 10; i++) smoothMap();
   //draw();
 }
 
+// render. Handles rending to the canvas
 function render() {
   requestAnimationFrame(render);
   draw();
 }
 
+// generates random points on the map so that the smothing algorithm can pass through
 function generateMap() {
   for (let i = startWidth; i < WIDTH; i += terrainSize) {
     map[i] = [];
@@ -44,6 +48,7 @@ function generateMap() {
   }
 }
 
+// smooths the landscape making it appear natural
 function smoothMap() {
   for (let i = startWidth; i < WIDTH; i += terrainSize) {
     for (let j = startHeight; j < HEIGHT; j += terrainSize) {
@@ -54,6 +59,7 @@ function smoothMap() {
   }
 }
 
+// gets the surrounding tiles
 function getSurroundingTile(gridX, gridY) {
   let wallCount = 0;
   for (
@@ -76,6 +82,7 @@ function getSurroundingTile(gridX, gridY) {
   return wallCount;
 }
 
+// draw. This will likely be changed when we finally flesh out the block object.
 function draw() {
   for (let i = 0; i < canvas.width; i+=terrainSize) {
     for (let j = 0; j < canvas.height; j+=terrainSize) {
