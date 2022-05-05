@@ -108,7 +108,7 @@ function drawCursorPos(x, y, size) {
   c.closePath();
 }
 
-document.querySelector('canvas').addEventListener('mousemove', (e) => {
-  mouseX = e.pageX;
-  mouseY = e.pageY;
+c.canvas.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX - c.canvas.offsetLeft;
+  mouseY = e.clientY - c.canvas.offsetTop;
 });
